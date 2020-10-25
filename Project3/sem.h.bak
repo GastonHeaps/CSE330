@@ -1,0 +1,66 @@
+#ifndef SEM_H
+#define SEM_H
+
+#include "threads.h"
+
+typedef struct Semaphore {
+	int value;	// Holds the Semaphore value that is incremented & decremented
+	struct Queue *tcbQ;	// Stores the Queue to hold the blocked processes
+} Semaphore;
+
+void initSem(Semaphore *semaphore, int value) {
+	// Allocate memory for the Sleep Queue
+	semaphore->tcbQ = (struct Queue*) malloc(sizeof(struct Queue));
+	
+	// Initialize the Head of the Sleep Queue
+	initQueue(semaphore->tcbQ);
+
+	// Initialize the value of the Semaphore
+	semaphore->value = value;
+	return;
+}
+
+void P(Semaphore *semaphore) {
+	
+	
+
+	// Check if the Semaphore value is zero or negative
+	if (semaphore->value > 0) {
+		// Decrement the Semaphore value
+		semaphore->value--;
+	} else {
+		printf("							BLOCKING \n");	
+		struct TCB_t *t; 
+		// Take the current process from the Run Queue
+		t = delQueue(runQ);
+		
+		// Block the process
+		addQueue(semaphore->tcbQ, t);	
+
+		swapcontext(&(t->context), &(runQ->head->context));
+	}
+	return;
+}
+
+void V(Semaphore *semaphore) {
+	
+	// Increment the Semaphore Value
+	semaphore->value++;
+	if (semaphore->value <= 0) {
+		printf("							UNBLOCKING \n");
+		// Declare a temporary TCB to hold the popped process
+		struct TCB_t *t; 
+
+		// Take a process from the Semaphore's Sleep Queue
+		t = delQueue(semaphore->tcbQ);
+		
+		// Put the process in the Run Queue
+		addQueue(runQ, t);
+	}
+	// Call the next process to eliminate bounded waiting
+	yield();
+	
+	return;
+}
+
+#endif

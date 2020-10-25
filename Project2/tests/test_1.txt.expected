@@ -1,0 +1,12 @@
+
+ This is 1 th execution of thread 1 with global var value 1 
+
+ This is 1 th execution of thread 2 with global var value 3 
+
+ This is 2 th execution of thread 1 with global var value 4 
+
+ This is 2 th execution of thread 2 with global var value 6 
+
+ This is 3 th execution of thread 1 with global var value 7 
+
+ This is 3 th execution of thread 2 with global var value 9 

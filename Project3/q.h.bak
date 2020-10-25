@@ -1,0 +1,100 @@
+#ifndef Q_H
+#define Q_H
+
+#include <stdio.h> 
+#include <stdlib.h> 
+#include <unistd.h>
+#include "tcb.h"
+
+struct Queue {
+    struct TCB_t* head;
+};
+
+struct TCB_t* newItem() {
+    struct TCB_t* temp = (struct TCB_t*)malloc(sizeof(struct TCB_t));
+    temp->prev = NULL;
+    temp->next = NULL;
+    return temp;
+}
+
+void initQueue(struct Queue* head) {
+    head->head = NULL;
+}
+
+void addQueue(struct Queue* head, struct TCB_t* item) {
+    if (head->head != NULL) {
+		if (head->head->next != NULL) {
+			// Queue is not empty, break chain and insert new item to end
+			item->prev = head->head->prev; // Add new link at end of chain
+			item->next = head->head; // Attach new link to beginning of chain
+			head->head->prev->next = item; // Make link from last element
+			head->head->prev = item; // Make link to end from head
+		} else {
+			// Queue has 1 element so create new chain
+			head->head->next = item; // Add new link to new item
+			head->head->prev = item; // Create chain linking to last element
+			item->next = head->head; // Create chain linking to first element
+			item->prev = head->head; // Add new link to old item
+		}
+	} else {
+		// Queue is empty
+		head->head = item; // Make header point to new item
+		item->prev = NULL; // Make pointer to NULL
+		item->next = NULL; // Make pointer to NULL
+	}
+}
+
+struct TCB_t* delQueue(struct Queue* head) {
+	struct TCB_t *item = head->head;
+
+	// Check for empty Queue
+	if (head->head != NULL) {
+		// Check for single or multiple elements in Queue
+		if (head->head->next != NULL) {
+			// Grab the last element and next element
+			// Assign next and prev to recreate chain
+			head->head->prev->next = head->head->next;
+			head->head->next->prev = head->head->prev;
+
+			// Set the Queue header to next
+			head->head = head->head->next;
+		} else {
+			// Remove single element from Queue
+			head->head = NULL;
+		}
+	}
+	
+	return item;
+}
+
+void rotateQueue(struct Queue* head) {
+    addQueue(head, delQueue(head));
+}
+
+void freeItem(struct TCB_t* item) {
+    free(item);
+}
+
+void printQueue(TCB_t * head)
+{
+   if(head == NULL)
+   {
+      puts("Queue is NULL");
+      return;
+   }
+   if(head->next == head)
+   {
+      printf("%p\n", head);
+   }
+   else
+   {
+      TCB_t * current = head;
+      while(current != head)
+      {
+         printf("%p\n", current);
+         current = current->next;
+      }
+   }
+}
+
+#endif

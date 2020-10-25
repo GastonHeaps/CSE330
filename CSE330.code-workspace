@@ -1,0 +1,27 @@
+{
+	"folders": [
+		{
+			"name": ".devcontainer",
+			"path": ".devcontainer"
+		},
+		{
+			"name": "Project2",
+			"path": "Project2"
+		},
+		{
+			"name": "Project3",
+			"path": "Project3"
+		}
+	],
+	"settings": {
+		"files.associations": {
+			"type_traits": "c",
+			"*.bak": "cpp",
+			"cstdlib": "c",
+			"cmath": "c",
+			"*.tcc": "c",
+			"typeinfo": "c"
+		}
+	}
+	
+}

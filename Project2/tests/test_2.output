@@ -1,0 +1,30 @@
+
+ This is 1 th execution of thread 1 with global var value 1 
+
+ This is 1 th execution of thread 2 with global var value 3 
+
+ This is 1 th execution of thread 3 with global var value 6 
+
+ This is 1 th execution of thread 4 with global var value 10 
+
+ This is 1 th execution of thread 5 with global var value 15 
+
+ This is 2 th execution of thread 1 with global var value 16 
+
+ This is 2 th execution of thread 2 with global var value 18 
+
+ This is 2 th execution of thread 3 with global var value 21 
+
+ This is 2 th execution of thread 4 with global var value 25 
+
+ This is 2 th execution of thread 5 with global var value 30 
+
+ This is 3 th execution of thread 1 with global var value 31 
+
+ This is 3 th execution of thread 2 with global var value 33 
+
+ This is 3 th execution of thread 3 with global var value 36 
+
+ This is 3 th execution of thread 4 with global var value 40 
+
+ This is 3 th execution of thread 5 with global var value 45 
