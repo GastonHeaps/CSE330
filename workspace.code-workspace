@@ -1,0 +1,33 @@
+{
+	"folders": [
+		{
+			"name": ".devcontainer",
+			"path": ".devcontainer"
+		},
+		{
+			"name": ".vscode",
+			"path": ".vscode"
+		},
+		{
+			"name": "Project2",
+			"path": "Project2"
+		},
+		{
+			"name": "Project3",
+			"path": "Project3"
+		},
+		{
+			"path": "Project4"
+		},
+		{
+			"path": "Project5"
+		}
+	],
+	"settings": {
+		"window.zoomLevel": 0,
+		"files.autoSave": "afterDelay",
+		"files.associations": {
+			"*.tcc": "c"
+		}
+	  }
+}

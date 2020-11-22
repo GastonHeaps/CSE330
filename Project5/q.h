@@ -31,6 +31,19 @@ void AddQueue(TCB_t** head, struct TCB_t* item) {
 }
 
 struct TCB_t* DelQueue(TCB_t** head) {
+	TCB_t* del = *head;
+	if (del->next == del) {
+		*head = NULL;
+	} else {
+        *head = (*head)->next;
+        del = (*head)->prev;
+        (*head)->prev->prev->next = *head;
+        (*head)->prev = (*head)->prev->prev;
+        del->prev = del;
+        del->next = del;
+	}
+	return del;
+
     if(*head == NULL)
     {
         return NULL;
@@ -58,7 +71,9 @@ struct TCB_t* DelQueue(TCB_t** head) {
 }
 
 void RotateQ(TCB_t** head) {
-    *head = (*head)->next;
+    if (*head != NULL) {
+        *head = (*head)->next;
+    }
 }
 
 #endif

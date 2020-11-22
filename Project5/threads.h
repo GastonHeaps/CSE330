@@ -27,15 +27,12 @@ void run() {	// real code
 // similar to run
 void yield() {
     //rotate the run Q;
-    ucontext_t from, to;
-    getcontext(&from);
-    RunQ->context = from;
-    RotateQ(&RunQ);
-    
-    to = RunQ->context;
-    if (RunQ->next != RunQ) {
-        swapcontext(&(RunQ->prev->context), &to);
-
+    if(RunQ != NULL) {
+        TCB_t *temp = RunQ;
+        RotateQ(&RunQ);
+        swapcontext(&(temp->context), &(RunQ->context)); //switch to next context
+    } else {
+         exit(0);
     }
 }
 
