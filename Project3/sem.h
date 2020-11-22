@@ -4,53 +4,44 @@
 #include "threads.h"
 
 typedef struct Semaphore {
-	int value;
-	struct Queue *semQ;
+	int val;
+	TCB_t* semQ;
 } Semaphore;
 
-Semaphore *  initSem(int value)
+void initSem(Semaphore* semaphore, int value)
 {
-	Semaphore * semaphore = ALLOC(Semaphore);
-    semaphore->value = value;
-    semaphore->semQ = initQueue();
-    return semaphore;
+	semaphore->semQ = NULL;
+	semaphore->val = value;
 }
 
 void P(Semaphore * semaphore)
 {
-    semaphore->value--;
-    if(semaphore->value < 0)
+    if(semaphore->val <= 0)
     {
-        
-        TCB_t * tcb = delQueue(runQ);
+		if (RunQ == NULL) {
+			exit(0);
+		}
+        TCB_t * tcb = DelQueue(&RunQ);
 		if (tcb->thread_id < 0) {
 			printf("\n Consumer %d is waiting \n\n",-tcb->thread_id);
 		} else if (tcb->thread_id > 0) {
 			printf("\n Producer %d is waiting \n\n",tcb->thread_id);
 		}
-		
-		addQueue(semaphore->semQ,tcb);
-		//while (runQ->head == NULL); {
-			swapcontext(&tcb->context, &runQ->head->context);
-		//}
-		
-        
+		AddQueue(&(semaphore->semQ),tcb);
+		swapcontext(&(tcb->context), &(RunQ->context));
+	} else {
+		semaphore->val--;
 	}
 }
 
 void V(Semaphore * semaphore)
 {
-	semaphore->value++;
-	if (semaphore->value <= 0) {
-		TCB_t * tcb = delQueue(semaphore->semQ);
-        addQueue(runQ, tcb);
+	if (semaphore->semQ != NULL) {
+		TCB_t * tcb = DelQueue(&(semaphore->semQ));
+        AddQueue(&RunQ, tcb);
 	}
-	if (runQ->head == NULL) {
-		exit(1);
-	} else {
-		yield();
-	}
-	
+	semaphore->val++;
+
 }
 
 
